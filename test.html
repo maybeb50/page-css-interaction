@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS interaction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .wrapper {
+            background:#fff;
+            height: 700px;
+        }
+        .loader {
+            z-index: 99;
+            opacity: 1;
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: all 2s cubic-bezier(.645,.045,.355,1);
+            background:rgba(254,117,118,1);
+        }
+        .svg-wrap,
+        .circle {
+            transition: all 2s cubic-bezier(.645,.045,.355,1);
+        }
+        .loader.end {
+            z-index: -1;
+        }
+        .loader.end .circle {
+            r: 100%;
+        }
+
+         /* IE10+ */
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+            /* Enter your style code */
+            .loader .svg-wrap {
+                -ms-transform: scale(0);
+                border-radius: 100%;
+                background:#fff;
+            }
+            .loader.end .svg-wrap {
+                -ms-transform: scale(2);
+            }
+        }
+
+        /* Edge Only CSS */
+        @supports (-ms-ime-align:auto) {
+            .loader .svg-wrap {
+                transform: scale(0);
+                border-radius: 100%;
+                background:#fff;
+            }
+
+            .loader.end .svg-wrap {
+                transform: scale(2);
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="loader" data-duration="3s">
+        <svg height="100%" width="100%" class="svg-wrap">
+            <circle class="circle" r="0" cx="50%" cy="50%" fill="#fff"/>
+        </svg>
+    </div>
+    <div class="wrapper">
+        <h1>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla, minus!</h1>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        $(window).on('load', function() {
+            setTimeout(function(){
+                $(".loader").addClass('end');
+            },100);
+
+            var article = document.querySelector('.loader');
+            var duration = article.dataset.duration;
+            var time = parseFloat(duration);
+            time = time * 1000;
+
+            $('.loader').find('*').css({
+                '-moz-transition-duration': duration,
+                '-o-transition-duration': duration,
+                '-webkit-transition-duration': duration,
+                'transition-duration': duration
+            });
+
+        });
+    </script>
+</body>
+</html>
